@@ -5,11 +5,13 @@ import java.util.regex.Pattern;
 
 public class Token {
 	
-	String tipoOperador;
-	
+	String tipoOperador, listaString;
+	boolean valor;
 	
 	public Token() {
 		tipoOperador = "";
+		listaString = "";
+		valor = false;
 	}
 
 	public boolean isPalabraReservada(String palabra) {
@@ -49,31 +51,35 @@ public class Token {
 	
 	public boolean isSpecialCharacterNoToken(String character) {   ////////////REVIEW
 		switch(character){
-		case "\"": case ".": return true;//AGREGAR BCO/TAB/EOLN/ EOF
+		case "\"": case ".": case "\\":return true;//AGREGAR BCO/TAB
 		default: return false;
 		}
 	}
 	
-	public boolean isDelimitador(char caracter) {
+	public boolean isDelimitadorToken(char caracter) {
 		//char EOL = System.getProperty("line.separator");
 		switch(caracter) {
 		case '+': case '-': case '*': case '/': case '<': case '=': 
 		case '>': case '&': case '|': case '!': case ';': case '[': 
 		case ']': case ',': case ':': case '{': case '}': case '\"': 
-		case '\\': case ' ':  return true;
+		return true;
+		default: return false;
+		}
+	}
+	
+	public boolean isDelimitadorNoToken(char caracter) {
+		switch(caracter) {
+		case ' ': case '\t': return true;
 		default: return false;
 		}
 	}
 	
 	public boolean isIdentificador(String palabra) {
-		int numCaracteres = 0;
-		Matcher matcher = Pattern.compile("^[a-zA-Z]").matcher(palabra);
-		if(matcher.find()) { //VERIFICAR QUE INICIA CON LETRA
-			numCaracteres++;
-			return true;
+		if(palabra.matches("^[a-zA-Z].*") && palabra.length()<=6) { //VERIFICAR QUE INICIA CON LETRA y TENGA MENOS o igual a 6 CARACTERES
+			 valor = true;
 		}
-		else return false;
-	
+		else valor = false;
+		return valor;
 	}
 	
 	public boolean isNumeroEntero(String constante){
@@ -86,31 +92,19 @@ public class Token {
 		else return false;	
 	}
 	
-	public boolean isComentario() {
-		
-		return false;
+	public boolean isComentario(String cadena) {
+		if(cadena.charAt(0) == '\\') {
+			if(cadena.charAt(1) == '\\') valor = true;
+		}
+		else valor = false;
+		return valor;
 	}
 	
-	public void imprimirLista(List lista) {
+	public String imprimirLista(List lista) {
 		for (Object element: lista) {
-            System.out.print(element);
-        }
-		
+         	  listaString = listaString + lista;
+        	}
+		return listaString;	
 	}
 	
-	
-		
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
+}//END CLASS
