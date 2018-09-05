@@ -1,7 +1,5 @@
 package Lexico;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Token {
 	
@@ -44,14 +42,14 @@ public class Token {
 	
 	public boolean isSpecialCharacter(String character) {
 		switch(character){
-		case ";": case "[": case "]": case ",": case ":": case "{": case "}": case ":=": return true;
+		case ";": case "[": case "]": case ",": case ":": case "(": case ")": case ":=": return true;
 		default: return false;
 		}
 	}
 	
 	public boolean isSpecialCharacterNoToken(String character) {   ////////////REVIEW
 		switch(character){
-		case "\"": case ".": case "\\":return true;//AGREGAR BCO/TAB
+		case "\"": case ".": case "\\":return true;//AGREGAR BCO/TAB/EOLN/ EOF
 		default: return false;
 		}
 	}
@@ -61,7 +59,7 @@ public class Token {
 		switch(caracter) {
 		case '+': case '-': case '*': case '/': case '<': case '=': 
 		case '>': case '&': case '|': case '!': case ';': case '[': 
-		case ']': case ',': case ':': case '{': case '}': case '\"': 
+		case ']': case ',': case ':': case '(': case ')': case '\"': 
 		return true;
 		default: return false;
 		}
@@ -101,9 +99,10 @@ public class Token {
 	}
 	
 	public String imprimirLista(List lista) {
+		listaString = "";
 		for (Object element: lista) {
-         	  listaString = listaString + lista;
-        	}
+           listaString = listaString + element;
+        }
 		return listaString;	
 	}
 	
