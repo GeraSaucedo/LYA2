@@ -1,10 +1,10 @@
 package Lexico;
+package Lexico;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 	public static void main (String [] krustier) {
@@ -12,7 +12,7 @@ public class Main {
 		//Leemos el archivo
 		try{
 			
-	         FileInputStream FIS = new FileInputStream("C:\\Users\\Training\\Desktop\\Lex.txt");  //Abrimos el archivo
+	         FileInputStream FIS = new FileInputStream("C:\\Users\\Jerry\\Desktop\\LEXICO.txt");  //Abrimos el archivo
 	         DataInputStream DIS = new DataInputStream(FIS); //se crea el objeto de entrada
 	         BufferedReader buffer = new BufferedReader(new InputStreamReader(DIS)); //se crea buffer de lectura
 	         String strLinea;
@@ -30,28 +30,39 @@ public class Main {
 	            	 
 	            	if(token.isDelimitadorToken(strLinea.charAt(i)) || token.isDelimitadorNoToken(strLinea.charAt(i))) {
 	            		
-	            		if(token.isDelimitadorNoToken(strLinea.charAt(i))) {
-	            			cadenaDel = token.imprimirLista(listaDel);
+	            		if(token.isDelimitadorToken(strLinea.charAt(i))) {
+	            			listaDel.add(strLinea.charAt(i)); //AGREGAMOS DELIMITADOR A LA LISTA
+	            			
+	            		}
+	            		else {	
+	            			cadenaDel = token.imprimirLista(listaDel); //guardamos la variable para no consumir tanta memoria
 	            			listaDel.clear();
 	            			if(token.isOperador(cadenaDel)) System.out.println("Operador " + token.getTipoOperador(cadenaDel) + ": " + cadenaDel + " Linea " + linea);
-	            			 if(token.isSpecialCharacter(cadenaDel)) System.out.println("Caracter especial:  " + cadenaDel + " Linea " + linea);
-	     	            	
-	            		}else listaDel.add(strLinea.charAt(i));
+	            			if(token.isSpecialCharacter(cadenaDel)) System.out.println("Caracter especial:  " + cadenaDel + " Linea " + linea);
+	            			
+	            			
+	            		}
 	            		
-	            		String cadena = token.imprimirLista(lista);
-	            		//if(!lista.isEmpty()) System.out.println(token.imprimirLista(lista));
+	            		String cadena = token.imprimirLista(lista); // guardamos la variable para no consumir tanta memoria
+	            		
 	            		if(token.isPalabraReservada(cadena)) System.out.println("Palabra reservada: " + cadena + " Linea " + linea);
 	            		if(token.isNumeroEntero(cadena)) System.out.println("Numero entero:  " + cadena + " Linea " + linea);
 	            		if(token.isNumeroReal(cadena)) System.out.println("Numero Real:  " + cadena + " Linea " + linea);
-	            	
-	            		
-	            		lista.clear();
+	            		if(!lista.isEmpty() && token.isString(cadena)) System.out.println("Constante string:  " + cadena + " Linea " + linea);
+	            		lista.clear(); 
 	            	} 
-	            	else lista.add(strLinea.charAt(i));
+	            	else {
+	            		lista.add(strLinea.charAt(i));
+	            		cadenaDel = token.imprimirLista(listaDel); //guardamos la variable para no consumir tanta memoria
+            			listaDel.clear();
+            			if(token.isOperador(cadenaDel)) System.out.println("Operador " + token.getTipoOperador(cadenaDel) + ": " + cadenaDel + " Linea " + linea);
+            			if(token.isSpecialCharacter(cadenaDel)) System.out.println("Caracter especial:  " + cadenaDel + " Linea " + linea);
+            			
+	            	}
 	            
-	             }//Cerrar for de leer caracteres
+	             }//Cerrar for de leer caracteres de la linea
 	             
-	             if(!lista.isEmpty() || !listaDel.isEmpty()) {
+	             if(!lista.isEmpty() || !listaDel.isEmpty()) { //si las listas no estan vacias al terminar de leer la linea se imprime lo que hay dentro 
 	            	 String cadena = token.imprimirLista(lista);
 	            	 String cadenaDelim = token.imprimirLista(listaDel);
 	            	 if(token.isPalabraReservada(cadena)) System.out.println("Palabra reservada: " + cadena + " Linea " + linea);
@@ -59,6 +70,8 @@ public class Main {
 	            	 if(token.isNumeroEntero(cadena)) System.out.println("Numero entero:  " + cadena + " Linea " + linea);
 	            	 if(token.isNumeroReal(cadena)) System.out.println("Numero Real:  " + cadena + " Linea " + linea);
 	            	 if(token.isSpecialCharacter(cadenaDelim)) System.out.println("Caracter especial:  " + cadenaDelim + " Linea " + linea);
+	            	 if(!lista.isEmpty() && token.isString(cadena)) System.out.println("Constante string:  " + cadena + " Linea " + linea);
+		            	
 	            			
 	             }
 	             lista.clear(); //Limpiamos la lista por el EOLN
