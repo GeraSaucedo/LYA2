@@ -1,5 +1,4 @@
 package Lexico;
-
 import java.util.List;
 
 public class Token {
@@ -98,10 +97,11 @@ public class Token {
 	}
 	
 	public boolean isComentario(String cadena) {
-		if(cadena.charAt(0) == '\\') {
-			if(cadena.charAt(1) == '\\') valor = true;
-		}
-		else valor = false;
+		if(cadena.length()>2) {
+			if(cadena.charAt(0) == '\\' && cadena.charAt(1) == '\\') valor = true;
+			else valor = false;
+		}else valor=false;
+		
 		return valor;
 	}
 	
