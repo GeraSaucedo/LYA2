@@ -1,5 +1,4 @@
 package Lexico;
-package Lexico;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -25,22 +24,19 @@ public class Main {
 	         // Leer el archivo linea por linea
 	         while ((strLinea = buffer.readLine()) != null)   {
 	             linea++;
-	        	 String cadenaDel = "";
+	             String cadenaDel = "";
 	             for(int i=0;i<strLinea.length();i++) { // FOR PARA LEER CADA CARACTER DE LA LINEA
 	            	 
 	            	if(token.isDelimitadorToken(strLinea.charAt(i)) || token.isDelimitadorNoToken(strLinea.charAt(i))) {
 	            		
 	            		if(token.isDelimitadorToken(strLinea.charAt(i))) {
 	            			listaDel.add(strLinea.charAt(i)); //AGREGAMOS DELIMITADOR A LA LISTA
-	            			
 	            		}
 	            		else {	
 	            			cadenaDel = token.imprimirLista(listaDel); //guardamos la variable para no consumir tanta memoria
 	            			listaDel.clear();
 	            			if(token.isOperador(cadenaDel)) System.out.println("Operador " + token.getTipoOperador(cadenaDel) + ": " + cadenaDel + " Linea " + linea);
 	            			if(token.isSpecialCharacter(cadenaDel)) System.out.println("Caracter especial:  " + cadenaDel + " Linea " + linea);
-	            			
-	            			
 	            		}
 	            		
 	            		String cadena = token.imprimirLista(lista); // guardamos la variable para no consumir tanta memoria
@@ -49,6 +45,10 @@ public class Main {
 	            		if(token.isNumeroEntero(cadena)) System.out.println("Numero entero:  " + cadena + " Linea " + linea);
 	            		if(token.isNumeroReal(cadena)) System.out.println("Numero Real:  " + cadena + " Linea " + linea);
 	            		if(!lista.isEmpty() && token.isString(cadena)) System.out.println("Constante string:  " + cadena + " Linea " + linea);
+	            		if(token.isComentario(cadena)) {
+	            			System.out.println("Comentario:  " + cadena + "... Linea " + linea);
+	            			i = strLinea.length(); //Terminamos de leer la linea porque fue un comentario, es decir, lo siguiente cuenta como el mismo comentario
+	            		}
 	            		lista.clear(); 
 	            	} 
 	            	else {
@@ -71,13 +71,13 @@ public class Main {
 	            	 if(token.isNumeroReal(cadena)) System.out.println("Numero Real:  " + cadena + " Linea " + linea);
 	            	 if(token.isSpecialCharacter(cadenaDelim)) System.out.println("Caracter especial:  " + cadenaDelim + " Linea " + linea);
 	            	 if(!lista.isEmpty() && token.isString(cadena)) System.out.println("Constante string:  " + cadena + " Linea " + linea);
-		            	
-	            			
-	             }
-	             lista.clear(); //Limpiamos la lista por el EOLN
-	             listaDel.clear();//limpiamos la lista de los delimitadores por el EOLN
-	       //
-	         }//Cerrar while leer linea
+	            	 if(token.isComentario(cadena)) System.out.println("Comentario:  " + cadena + " Linea " + linea);
+	            }//END if lista empty
+	            
+			lista.clear(); //Limpiamos la lista por el EOLN
+	             	listaDel.clear();//limpiamos la lista de los delimitadores por el EOLN
+	       
+		 }//Cerrar while leer linea
 	         DIS.close(); // Cerramos el archivo
 	    
 		 }catch (Exception e){ //Catch de excepciones
