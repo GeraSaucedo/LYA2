@@ -1,4 +1,5 @@
 package Lexico;
+
 import java.util.List;
 
 public class Token {
@@ -59,7 +60,7 @@ public class Token {
 		switch(caracter) {
 		case '+': case '-': case '*': case '/': case '<': case '=': 
 		case '>': case '&': case '|': case '!': case ';': case '[': 
-		case ']': case ',': case ':': case '(': case ')': case '\"': 
+		case ']': case ',': case ':': case '(': case ')':  
 		return true;
 		default: return false;
 		}
@@ -88,6 +89,12 @@ public class Token {
 	public boolean isNumeroReal(String numero) {
 		if(numero.matches(("^\\d+\\.\\d+$"))) return true;
 		else return false;	
+	}
+	
+	public boolean isString(String cadena) {
+		if(cadena.charAt(0) == '\"' && cadena.charAt(cadena.length()-1) == '\"') valor = true;
+		else valor = false;
+		return valor;
 	}
 	
 	public boolean isComentario(String cadena) {
