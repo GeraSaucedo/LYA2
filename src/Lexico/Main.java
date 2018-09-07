@@ -100,7 +100,7 @@ public class Main {
 	            	 if(!lista.isEmpty() && token.isString(cadena))  System.out.println("Constante string:  " + cadena + " Linea " + linea); 
 	            	 if(token.isComentario(cadena))  System.out.println("Comentario:  " + cadena + " Linea " + linea); 
 	            	 if(token.isIdentificador(cadena) && !token.isPalabraReservada(cadena))  System.out.println("Identificador:  " + cadena + " Linea " + linea);
-	            	 if(!token.isOperador(cadenaDelim)) { //SI llegaron delimitadores juntos 
+	            	 if(!token.isOperador(cadenaDelim) && !token.isSpecialCharacter(cadenaDelim)) { //SI llegaron delimitadores juntos
 	            		 for(int k=0;k<cadenaDelim.length();k++) {
 	            			 caracter = ""; //reinicializamos para que no se junten de nuevo los caracterers a verificar si son operadores o caracteres especiales 
 	            			 caracter += cadenaDelim.charAt(k); //caracter a comparar
